@@ -15,10 +15,21 @@ on:
         type: string
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.setVariables.outputs.repos }}
+    steps:
+      - id: setVariables
+        run: |
+          echo "::set-output name=repos::$input"
+        env:
+          input: ${{ inputs.repos }}
   dispatch:
+    needs: setup
     strategy:
       matrix:
-        repo: ${{ inputs.repos }}
+        repo: ${{ needs.setup.outputs.repos }}
     runs-on: "ubuntu-latest"
     steps:
       - name: Trigger update
