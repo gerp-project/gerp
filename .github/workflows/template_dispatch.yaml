@@ -4,13 +4,13 @@ on:
   workflow_call:
     inputs:
       repos:
-        description: 'Repositories in the form of ["org/repo", "org2/repo"]'
+        description: 'Repositories in JSON form like ["org/repo", "org2/repo"]'
         required: true
         type: string
   workflow_dispatch:
     inputs:
       repos:
-        description: 'Repositories in the form of ["org/repo", "org2/repo"]'
+        description: 'Repositories in JSON form like ["org/repo", "org2/repo"]'
         required: true
         type: string
 
@@ -29,7 +29,7 @@ jobs:
     needs: setup
     strategy:
       matrix:
-        repo: ${{ needs.setup.outputs.repos }}
+        repo: ${{ fromJson(needs.setup.outputs.repos) }}
     runs-on: "ubuntu-latest"
     steps:
       - name: Trigger update
