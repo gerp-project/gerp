@@ -28,6 +28,7 @@ jobs:
   dispatch:
     needs: setup
     strategy:
+      fail-fast: false
       matrix:
         repo: ${{ fromJson(needs.setup.outputs.repos) }}
     runs-on: "ubuntu-latest"
