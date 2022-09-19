@@ -2,15 +2,17 @@ name: "Template dispatch"
 
 on:
   workflow_call:
-    repos:
-      description: "Repositories in the form of [org/repo, org2/repo]"
-      required: true
-      type: string
+    inputs:
+      repos:
+        description: "Repositories in the form of [org/repo, org2/repo]"
+        required: true
+        type: string
   workflow_dispatch:
-    repos:
-      description: "Repositories in the form of [org/repo, org2/repo]"
-      required: true
-      type: string
+    inputs:
+      repos:
+        description: "Repositories in the form of [org/repo, org2/repo]"
+        required: true
+        type: string
 
 jobs:
   dispatch:
