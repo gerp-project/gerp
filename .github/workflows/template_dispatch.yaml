@@ -4,13 +4,13 @@ on:
   workflow_call:
     inputs:
       repos:
-        description: 'Repositories in JSON form like ["org/repo", "org2/repo"]'
+        description: 'Repositories in JSON array form like ["org/repo", "org2/repo"]'
         required: true
         type: string
   workflow_dispatch:
     inputs:
       repos:
-        description: 'Repositories in JSON form like ["org/repo", "org2/repo"]'
+        description: 'Repositories in JSON array form like ["org/repo", "org2/repo"]'
         required: true
         type: string
 
@@ -18,20 +18,20 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.setVariables.outputs.repos }}
+      matrix: ${{ steps.setVariables.outputs.matrix }}
     steps:
       - id: setVariables
         run: |
-          echo "::set-output name=repos::$repos"
+          echo "::set-output name=matrix::$input"
         env:
-          repos: ${{ inputs.repos }}
+          input: ${{ inputs.repos }}
   dispatch:
     needs: setup
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        repo: ${{fromJson(needs.setup.outputs.repos)}}
-    runs-on: "ubuntu-latest"
+        repo: ${{fromJson(needs.setup.outputs.matrix)}}
     steps:
       - name: Trigger update
         uses: actions/github-script@v6
