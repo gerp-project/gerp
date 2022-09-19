@@ -22,9 +22,9 @@ jobs:
     steps:
       - id: setVariables
         run: |
-          echo "::set-output name=repos::$input"
+          echo "::set-output name=repos::$repos"
         env:
-          input: ${{ inputs.repos }}
+          repos: ${{ inputs.repos }}
   dispatch:
     needs: setup
     strategy:
