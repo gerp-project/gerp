@@ -1,0 +1,23 @@
+name: "Template dispatch"
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  dispatch:
+    strategy:
+      matrix:
+        repo: [10, 12, 14]
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Trigger update
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: ${{ matrix.repo }},
+              workflow_id: 'test.yml',
+              ref: 'main',
+            })
