@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        repo: ${{ fromJson(needs.setup.outputs.repos) }}
+        repo: ${{fromJson(needs.setup.outputs.repos)}}
     runs-on: "ubuntu-latest"
     steps:
       - name: Trigger update
