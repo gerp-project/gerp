@@ -26,12 +26,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const [owner, repo] = '${{ matrix.repo }}'.split('/');
             github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: '${{ matrix.repo }}',
+              owner: owner,
+              repo: repo,
               workflow_id: 'sync_template.yaml',
               ref: 'main',
               inputs: {
                 templateRepo: '${{ github.repository }}'
               }
-            })
+            });
