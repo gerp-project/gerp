@@ -28,10 +28,10 @@ jobs:
           script: |
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
-              repo: ${{ matrix.repo }},
+              repo: '${{ matrix.repo }}',
               workflow_id: 'sync_template.yaml',
               ref: 'main',
               inputs: {
-                templateRepo: ${{ github.repository }}
+                templateRepo: '${{ github.repository }}'
               }
             })
