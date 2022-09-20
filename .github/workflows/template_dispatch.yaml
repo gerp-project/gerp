@@ -50,7 +50,5 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT }}
-          committer: davidgamero <david340804@gmail.com>
-          author: davidgamero <david340804@gmail.com>
           path: target-repo
           commit-message: "GERP updated files from templates"
