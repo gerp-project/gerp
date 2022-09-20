@@ -14,7 +14,7 @@ jobs:
         run: sudo apt-get install -y jq
       - id: setVariables
         run: |
-          repos=$(jq '.repos | keys' .gerp/config.json)
+          repos=$(jq '.repos | keys' -c .gerp/config.json)
           echo "::set-output name=matrix::$repos"
   dispatch:
     needs: setup
