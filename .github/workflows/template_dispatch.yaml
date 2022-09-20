@@ -22,16 +22,35 @@ jobs:
       matrix:
         repo: ${{fromJson(needs.setup.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Template Repo
+        uses: actions/checkout@v3
+        with:
+          path: "template-repo"
       - name: Install Mustache
         run: npm install -g mustache
+      - name: Checkout Target Repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{matrix.repo}}
+          path: "target-repo"
+      - name: Create New Target Repo Branch
+        run: |
+          cd $GITHUB_WORKSPACE/target-repo
+          git checkout -b gerp-$(date+%s)
+          cd $GITHUB_WORKSPACE
       - name: Generate files
         run: |
           repo=${{ matrix.repo }}
           jq --arg repo "$repo" '.repos[$repo].inputs' ./.gerp/config.json > inputs.json
-          for f in $(find ./template -type f); do
-            outpath=generated/${f#./*/}
+          for f in $(find $GITHUB_WORKSPACE/template-repo/template -type f); do
+            outpath=$GITHUB_WORKSPACE/target-repo/${f#./*/}
             mkdir -p $(dirname $outpath) && touch $outpath
             mustache inputs.json $f > $outpath
             echo generated $outpath
           done
+      - name: make PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{secrets.PAT}}
+          path: target-repo
+          commit-message: "GERP updated files from templates"
