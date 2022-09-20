@@ -15,6 +15,7 @@ jobs:
           repos=$(jq '.repos | keys' -c .gerp/config.json)
           echo "::set-output name=matrix::$repos"
   dispatch:
+    permissions: write-all # todo investigate specifically which one is needed
     needs: setup
     runs-on: ubuntu-latest
     strategy:
