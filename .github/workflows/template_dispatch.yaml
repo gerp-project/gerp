@@ -1,4 +1,4 @@
-name: "Template dispatch"
+name: Template dispatch
 
 on:
   workflow_call:
@@ -29,6 +29,9 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: ${{ matrix.repo }},
-              workflow_id: 'test.yml',
+              workflow_id: 'sync_template.yaml',
               ref: 'main',
+              inputs: {
+                templateRepo: ${{ github.repository }})
+              }
             })

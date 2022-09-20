@@ -35,6 +35,6 @@ Create a `.gerp/config.json` file.
 }
 ```
 
-The key of each entry in repos is the full repository name (org + name). Inputs are the input object expected by [handlebars](https://handlebarsjs.com/) for templating.
+The key of each entry in repos is the full repository name (org + name). Inputs are the input object expected by [mustache](https://www.npmjs.com/package/mustache) for templating.
 
-Then create a `template` directory. The inside the template directory represent the root directory of your supported repos. For example, `template/.github/workflows/test.yaml` maps to `.github/workflows/test.yaml` in your supported repos. Handlebars expressions can be used inside files in the `template` directory.
+Then create a `template` directory. The inside the template directory represent the root directory of your supported repos. For example, `template/.github/workflows/test.yaml` maps to `.github/workflows/test.yaml` in your supported repos. Mustache expressions can be used inside files in the `template` directory.
