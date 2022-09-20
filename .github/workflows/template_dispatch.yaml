@@ -2,7 +2,9 @@ name: Template dispatch
 
 on:
   workflow_call:
-
+    secrets:
+      PAT:
+        required: true
 jobs:
   setup:
     runs-on: ubuntu-latest
