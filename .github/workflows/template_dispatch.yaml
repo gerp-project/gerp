@@ -14,7 +14,7 @@ jobs:
         run: |
           repos=$(jq '.repos | keys' -c .gerp/config.json)
           echo "::set-output name=matrix::$repos"
-  dispatch:
+  make-pr:
     needs: setup
     runs-on: ubuntu-latest
     strategy:
@@ -33,11 +33,6 @@ jobs:
         with:
           repository: ${{matrix.repo}}
           path: "target-repo"
-      - name: Create New Target Repo Branch
-        run: |
-          cd $GITHUB_WORKSPACE/target-repo
-          git checkout -b gerp-$(date +%s)
-          cd $GITHUB_WORKSPACE
       - name: Generate files
         run: |
           repo=${{ matrix.repo }}
@@ -48,6 +43,7 @@ jobs:
             mustache inputs.json $f > $outpath
             echo generated $outpath
           done
+          cd $GITHUB_WORKSPACE/target-repo
       - name: make PR
         uses: peter-evans/create-pull-request@v4
         with:
