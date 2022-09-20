@@ -1,0 +1,10 @@
+{
+  "repos": {
+    "org/repo": {
+      "inputs": {}
+    },
+    "org2/repo2": {
+      "inputs": {}
+    }
+  }
+}
