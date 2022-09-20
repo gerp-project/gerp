@@ -15,7 +15,6 @@ jobs:
           repos=$(jq '.repos | keys' -c .gerp/config.json)
           echo "::set-output name=matrix::$repos"
   dispatch:
-    permissions: write-all # todo investigate specifically which one is needed
     needs: setup
     runs-on: ubuntu-latest
     strategy:
@@ -23,17 +22,16 @@ jobs:
       matrix:
         repo: ${{fromJson(needs.setup.outputs.matrix)}}
     steps:
-      - name: Trigger update
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const [owner, repo] = '${{ matrix.repo }}'.split('/');
-            github.rest.actions.createWorkflowDispatch({
-              owner: owner,
-              repo: repo,
-              workflow_id: 'sync_template.yaml',
-              ref: 'main',
-              inputs: {
-                templateRepo: '${{ github.repository }}'
-              }
-            });
+      - uses: actions/checkout@v3
+      - name: Install Mustache
+        run: npm install -g mustache
+      - name: Generate files
+        run: |
+          repo=${{ matrix.repo }}
+          jq --arg repo "$repo" '.repos[$repo].inputs' ./.gerp/config.json > inputs.json
+          for f in $(find ./template -type f); do
+            outpath=generated/${f#./*/}
+            mkdir -p $(dirname $outpath) && touch $outpath
+            mustache inputs.json $f > $outpath
+            echo generated $outpath
+          done
