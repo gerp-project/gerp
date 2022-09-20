@@ -32,6 +32,6 @@ jobs:
               workflow_id: 'sync_template.yaml',
               ref: 'main',
               inputs: {
-                templateRepo: ${{ github.repository }})
+                templateRepo: ${{ github.repository }}
               }
             })
