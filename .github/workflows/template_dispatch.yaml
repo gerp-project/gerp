@@ -36,12 +36,12 @@ jobs:
       - name: Create New Target Repo Branch
         run: |
           cd $GITHUB_WORKSPACE/target-repo
-          git checkout -b gerp-$(date+%s)
+          git checkout -b gerp-$(date +%s)
           cd $GITHUB_WORKSPACE
       - name: Generate files
         run: |
           repo=${{ matrix.repo }}
-          jq --arg repo "$repo" '.repos[$repo].inputs' ./.gerp/config.json > inputs.json
+          jq --arg repo "$repo" '.repos[$repo].inputs' $GITHUB_WORKSPACE/template-repo/.gerp/config.json > inputs.json
           for f in $(find $GITHUB_WORKSPACE/template-repo/template -type f); do
             outpath=$GITHUB_WORKSPACE/target-repo/${f#./*/}
             mkdir -p $(dirname $outpath) && touch $outpath
