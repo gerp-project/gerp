@@ -1,14 +1,18 @@
 name: Synchronize Templates
 on:
   workflow_call:
+    inputs:
+      committer:
+        default: "GitHub <noreply@github.com>"
+        type: string
+        description: "Committer to use for the PR in the format: 'username <email@website.com>'"
+        required: false
     secrets:
       PAT:
         required: true
       GPG_PRIVATE_KEY:
         required: false
       GPG_PASSPHRASE:
-        required: false
-      GPG_COMMITTER:
         required: false
 
 jobs:
@@ -67,7 +71,7 @@ jobs:
         env:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE}}
-          gpg_comitter: ${{ secrets.GPG_COMMITTER }}
+          gpg_comitter: ${{ inputs.committer}}
         if: ${{ env.gpg_private_key == '' || env.gpg_passphrase == '' || env.gpg_committer == '' }}
         run: |
           echo "SKIPPING GPG, MISSING GPG SECRETS"
@@ -78,7 +82,7 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE}}
           gpg_comitter: ${{ secrets.GPG_COMMITTER }} 
-        if: ${{ env.gpg_private_key != '' && env.gpg_passphrase != '' && env.gpg_committer != '' }}
+        if: ${{ env.gpg_private_key != '' && env.gpg_passphrase != '' && env.gpg_committer != 'GitHub <noreply@github.com>' }}
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
@@ -95,7 +99,7 @@ jobs:
           title: "GERP sync from ${{ github.REPOSITORY }}"
           body: "GERP synchronizing template from ${{ github.REPOSITORY }}"
           delete-branch: true
-          committer: ${{secrets.GPG_COMMITTER || 'GitHub <noreply@github.com>'}}
+          committer: ${{ inputs.committer }}
 
       - name: Print Summary
         run: echo "- ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
