@@ -56,10 +56,12 @@ jobs:
             mustache inputs.json $f > $outpath
             echo generated $outpath
           done
-      - if: secrets.GPG_PRIVATE_KEY == '' || secrets.GPG_PASSPHRASE || '' && secrets.GPG_COMMITTER || ''
+      - name: GPG Secret Check
+        if: secrets.GPG_PRIVATE_KEY == '' || secrets.GPG_PASSPHRASE || '' && secrets.GPG_COMMITTER || ''
         run: |
           echo "SKIPPING GPG, MISSING GPG SECRETS"
-      - uses: crazy-max/ghaction-import-gpg@v3
+      - name: Enable GPG Signing 
+        uses: crazy-max/ghaction-import-gpg@v3
         if: secrets.GPG_PRIVATE_KEY != '' && secrets.GPG_PASSPHRASE && '' && secrets.GPG_COMMITTER != '' 
         with:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
