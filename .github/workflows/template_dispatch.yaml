@@ -17,8 +17,8 @@ jobs:
           repos=$(jq '.repos | keys' -c .gerp/config.json)
           echo "::set-output name=matrix::$repos"
       - run: |
-          echo '### Templates applied :white_check_mark:' >> $GITHUB_STEP_SUMMARY
-          echo 'Pull requests created' >> $GITHUB_STEP_SUMMARY
+          echo '### Template synchronization started' >> $GITHUB_STEP_SUMMARY
+          echo 'Created pull requests will be shown below' >> $GITHUB_STEP_SUMMARY
   make-pr:
     needs: setup
     runs-on: ubuntu-latest
@@ -56,4 +56,4 @@ jobs:
           token: ${{ secrets.PAT }}
           path: target-repo
           commit-message: "GERP updated files from templates"
-      - run: echo "- ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
+      - run: echo "${{ matrix.repo }} - ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
