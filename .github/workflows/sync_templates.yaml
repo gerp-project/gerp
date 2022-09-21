@@ -57,8 +57,8 @@ jobs:
           token: ${{ secrets.PAT }}
           path: target-repo
           commit-message: "GERP updated files from templates"
-          title: "GERP Sync from ${{ env.GITHUB_REPOSITORY }}"
-          body: "GERP Synchronizing Template from ${{ env.GITHUB_REPOSITORY }}"
+          title: "GERP Sync from ${{ github.GITHUB_REPOSITORY }}"
+          body: "GERP Synchronizing Template from ${{ github.GITHUB_REPOSITORY }}"
           delete-branch: true
       - name: Print Summary
         run: echo "- ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
