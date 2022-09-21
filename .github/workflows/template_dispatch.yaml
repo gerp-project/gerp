@@ -24,17 +24,17 @@ jobs:
       matrix:
         repo: ${{fromJson(needs.setup.outputs.matrix)}}
     steps:
-      - name: Checkout Template Repo
+      - name: Checkout template repository
         uses: actions/checkout@v3
         with:
           path: "template-repo"
-      - name: Install Mustache
-        run: npm install -g mustache
-      - name: Checkout Target Repo
+      - name: Checkout target repository
         uses: actions/checkout@v3
         with:
           repository: ${{matrix.repo}}
           path: "target-repo"
+      - name: Install Mustache
+        run: npm install -g mustache
       - name: Generate files
         run: |
           repo=${{ matrix.repo }}
@@ -46,7 +46,7 @@ jobs:
             echo generated $outpath
           done
       - run: cd $GITHUB_WORKSPACE/target-repo
-      - name: make PR
+      - name: Create pull request
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT }}
