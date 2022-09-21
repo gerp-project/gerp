@@ -1,6 +1,6 @@
 # gerp
 
-GitHub Enforced Repository Policy
+GitHub Enforced Repository Patterning
 
 ## Usage
 
