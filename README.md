@@ -63,4 +63,6 @@ jobs:
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 ```
 
+Note: Your committer must exactly match the email used for your GPG key
+
 See [crazy-max/ghaction-import-gpg](https://github.com/crazy-max/ghaction-import-gpg) for details on `GPG_PRIVATE_KEY` and `GPG-PASSPHRASE`
