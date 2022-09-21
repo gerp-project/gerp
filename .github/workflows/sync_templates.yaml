@@ -73,8 +73,8 @@ jobs:
           token: ${{ secrets.PAT }}
           path: target-repo
           commit-message: "GERP updated files from templates"
-          title: "GERP Sync from ${{ github.REPOSITORY }}"
-          body: "GERP Synchronizing Template from ${{ github.REPOSITORY }}"
+          title: "GERP sync from ${{ github.REPOSITORY }}"
+          body: "GERP synchronizing template from ${{ github.REPOSITORY }}"
           delete-branch: true
           committer: ${{secrets.GPG_COMMITTER}}
       - name: Print Summary
