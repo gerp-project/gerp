@@ -56,4 +56,4 @@ jobs:
           token: ${{ secrets.PAT }}
           path: target-repo
           commit-message: "GERP updated files from templates"
-      - run: echo "${{ matrix.repo }} - ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
+      - run: echo "${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
