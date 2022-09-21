@@ -45,7 +45,7 @@ jobs:
             mustache inputs.json $f > $outpath
             echo generated $outpath
           done
-          cd $GITHUB_WORKSPACE/target-repo
+      - run: cd $GITHUB_WORKSPACE/target-repo
       - name: make PR
         uses: peter-evans/create-pull-request@v4
         with:
