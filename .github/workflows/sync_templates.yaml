@@ -17,7 +17,8 @@ jobs:
           repos=$(jq '.repos | keys' -c .gerp/config.json)
           echo "::set-output name=matrix::$repos"
       - run: |
-          echo '### Template synchronization started' >> $GITHUB_STEP_SUMMARY
+          echo '### Template synchronization' >> $GITHUB_STEP_SUMMARY
+          echo 'Started template synchronization' >> $GITHUB_STEP_SUMMARY
           echo 'Created pull requests will be shown below' >> $GITHUB_STEP_SUMMARY
   make-pr:
     name: "Make PR on ${{matrix.repo}}"
@@ -60,3 +61,9 @@ jobs:
           body: "GERP Synchronizing Template from ${{env.GITHUB_REPOSITORY}}"
       - name: Print Summary
         run: echo "- ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
+  finish:
+    name: "Finish"
+    needs: make-pr
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Finished template synchronization' >> $GITHUB_STEP_SUMMARY
