@@ -4,6 +4,12 @@ on:
     secrets:
       PAT:
         required: true
+      GPG_PRIVATE_KEY:
+        required: false
+      GPG_PASSPHRASE:
+        required: false
+      GPG_COMMITTER:
+        required: false
 jobs:
   setup:
     name: "Setup"
@@ -50,6 +56,16 @@ jobs:
             mustache inputs.json $f > $outpath
             echo generated $outpath
           done
+      - if: secrets.GPG_PRIVATE_KEY == '' || secrets.GPG_PASSPHRASE || '' && secrets.GPG_COMMITTER || ''
+        run: |
+          echo "SKIPPING GPG, MISSING GPG SECRETS"
+      - uses: crazy-max/ghaction-import-gpg@v3
+        if: secrets.GPG_PRIVATE_KEY != '' && secrets.GPG_PASSPHRASE && '' && secrets.GPG_COMMITTER != '' 
+        with:
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git-user-signingkey: true
+          git-commit-gpgsign: true
       - name: Create pull request
         id: create-pr
         uses: peter-evans/create-pull-request@v4
@@ -60,6 +76,7 @@ jobs:
           title: "GERP Sync from ${{ github.REPOSITORY }}"
           body: "GERP Synchronizing Template from ${{ github.REPOSITORY }}"
           delete-branch: true
+          committer: ${{secrets.GPG_COMMITTER}}
       - name: Print Summary
         run: echo "- ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
   finish:
