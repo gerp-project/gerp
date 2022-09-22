@@ -52,6 +52,7 @@ jobs:
         with:
           repository: ${{matrix.repo}}
           path: "target-repo"
+          token: ${{ secrets.PAT }}
 
       - name: Install Mustache
         run: npm install -g mustache
@@ -76,12 +77,12 @@ jobs:
         run: |
           echo "SKIPPING GPG, MISSING GPG SECRETS"
 
-      - name: Enable GPG Signing 
+      - name: Enable GPG Signing
         uses: crazy-max/ghaction-import-gpg@v5
         env:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE}}
-          gpg_comitter: ${{ secrets.GPG_COMMITTER }} 
+          gpg_comitter: ${{ secrets.GPG_COMMITTER }}
         if: ${{ env.gpg_private_key != '' && env.gpg_passphrase != '' && env.gpg_committer != 'GitHub <noreply@github.com>' }}
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
