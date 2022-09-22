@@ -4,6 +4,10 @@ GitHub Enforced Repository Patterning
 
 ## Usage
 
+The easiest way to get started is with our [template](https://github.com/gerp-project/gerp-template).
+
+### Manual Setup
+
 First, create a template repository that will house your templates. After, add a `.github/workflows/gerp_sync_templates.yaml` file with the following contents.
 
 ```yaml
