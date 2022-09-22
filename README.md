@@ -16,7 +16,7 @@ on:
 
 jobs:
   sync-templates:
-    uses: gerp-project/gerp/.github/workflows/template_dispatch.yaml@v0
+    uses: gerp-project/gerp/.github/workflows/sync_templates.yaml@v0
     secrets:
       PAT: ${{ secrets.PAT }}
 ```
