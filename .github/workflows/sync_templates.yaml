@@ -104,7 +104,7 @@ jobs:
           committer: ${{ inputs.committer }}
       - name: Print Failed Summary
         if: ${{ failure() }}
-        run: echo "- Failed ${{ matrix.repo }} :x:" >> $GITHUB_STEP_SUMMARY
+        run: echo "- Failed  to sync template for ${{ matrix.repo }} :x:" >> $GITHUB_STEP_SUMMARY
       - name: Print Succeeded Summary
         run: echo "- ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
   finish:
