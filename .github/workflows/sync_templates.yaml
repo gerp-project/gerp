@@ -99,7 +99,7 @@ jobs:
           path: target-repo
           commit-message: "GERP updated files from templates"
           title: "GERP sync from ${{ github.REPOSITORY }}"
-          body: "GERP synchronizing template from ${{ github.REPOSITORY }}"
+          body: "GERP synchronizing template from [${{ github.REPOSITORY }}](${{ github.GITHUB_SERVER_URL }}/${{ github.REPOSITORY }})"
           delete-branch: true
           committer: ${{ inputs.committer }}
       - name: Print Failed Summary
