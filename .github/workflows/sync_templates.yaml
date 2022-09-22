@@ -103,7 +103,7 @@ jobs:
           delete-branch: true
           committer: ${{ inputs.committer }}
       - name: Print Failed Summary
-        if: ${{ failure }}
+        if: ${{ failure() }}
         run: echo "- Failed ${{ matrix.repo }} :x:" >> $GITHUB_STEP_SUMMARY
       - name: Print Succeeded Summary
         run: echo "- ${{ steps.create-pr.outputs.pull-request-url }}" >> $GITHUB_STEP_SUMMARY
