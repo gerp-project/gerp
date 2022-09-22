@@ -1,6 +1,6 @@
 # gerp
 
-GitHub Enforced Repository Patterning
+GitHub Enforced Repository Patterning (GERP) uses a single template repo to synchronize repository templates via batch Pull Requests. This is fantastic for the things that live in your `.github` folder (codeowners, issue template, pull request templates, actions) and so much more! Essentially any file that you need to be consistient across multiple repos fits perfectly with GERP.
 
 ## Usage
 
